@@ -15,6 +15,7 @@ nano .env -> change the contents of the environment file according to your needs
 ES
 ==
 docker-compose up -d elasticsearch
+
 docker logs -f eds-elasticsearch-1
 
 curl -X POST --user elastic:changeme 0.0.0.0:9200/_security/service/elastic/kibana/credential/token/token1?pretty
@@ -25,32 +26,40 @@ Kibana
 ======
 
 docker-compose up -d kibana
+
 docker logs -f eds-kibana-1
 
 filebeat
 ========
 docker-compose build --no-cache filebeat
+
 docker-compose up -d filebeat
+
 docker logs -f eds-filebeat-1
 
 zeek
 ====
 docker-compose build --no-cache zeek
+
 docker-compose up -d zeek
+
 docker logs -f eds-zeek-1
 
 suricata
 ========
 docker-compose build --no-cache suricata
+
 docker-compose up -d suricata
+
 docker logs -f eds-suricata-1
 
 slips
 =====
 docker-compose build --no-cache slips
+
 docker-compose up -d slips
+
 docker logs -f eds-slips-1
 
 
-##Note
-I have added custom rules for DOS attack, SQL injection and privilge escaltion in the suricata folder. Make your own rules for custom attack detection.
+###I have added custom rules for DOS attack, SQL injection and privilge escaltion in the suricata folder. Make your own rules for custom attack detection.####
