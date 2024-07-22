@@ -53,6 +53,8 @@ docker-compose up -d suricata
 
 docker logs -f eds-suricata-1
 
+###I have added custom rules for DOS attack, SQL injection and privilge escaltion in the suricata folder. Make your own rules for custom attack detection.####
+
 slips
 =====
 docker-compose build --no-cache slips
@@ -61,5 +63,3 @@ docker-compose up -d slips
 
 docker logs -f eds-slips-1
 
-
-###I have added custom rules for DOS attack, SQL injection and privilge escaltion in the suricata folder. Make your own rules for custom attack detection.####
