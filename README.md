@@ -1,65 +1,71 @@
-# EDS (Ensemble Defense System- Hybrid based IDS with SIEM)
+EDS (Ensemble Defense System – Hybrid IDS with SIEM)
 
-we design, develop, and evaluate a novel Ensemble Defense System (EDS), addressing the critical need for advanced defense systems. The EDS combines the capabilities of Intrusion Detection Systems (IDS) and Security Information and Event Management (SIEM) to provide an effective defense against cyber threats. The EDS incorporates hybrid-based IDS technologies, leveraging the strengths of signature-based IDS tools like Zeek and Suricata and behavioral-based IDS tools like Slips. By utilizing hybrid-based IDS, the EDS provides a more effective system for countering cyber threats. Moreover, the EDS integrates open-source SIEM, specifically Elasticsearch, to provide data management and analysis capabilities and create user-friendly visualization.
+The Ensemble Defense System (EDS) is a hybrid security framework that integrates multiple Intrusion Detection Systems (IDS) with a Security Information and Event Management (SIEM) solution.
 
-Steps to evaluate EDS:
+The goal is to provide a stronger and more efficient defense against cyber threats by combining:
 
-Pull the file from this repositiory and unzip it. I have tested ubuntu but free feel to test it in other environment as we will be running docker containers.
+Signature-based IDS tools such as Zeek and Suricata
+
+Behavior-based IDS tools such as Slips
+
+Open-source SIEM (Elasticsearch & Kibana) for log management, analysis, and visualization
+
+This hybrid approach leverages the strengths of each system to achieve better accuracy, reduce false positives, and improve detection capabilities.
+
+<img width="1300" height="721" alt="image" src="https://github.com/user-attachments/assets/e99bdd1f-1b84-4514-8bd8-4b6cb6439fce" />
+
+
+################ Steps to Evaluate EDS ################################
+
+#Clone this repository and unzip the files.
+#Tested on Ubuntu, but feel free to experiment on other environments since the system runs in Docker containers.
 
 cd eds -> cd EDS
 
-nano .env -> change the contents of the environment file according to your needs.
 
-# now after proper configurations are done, we will start the containers one by one.
+#Update environment variables as needed:
 
-ES
-==
+nano .env
+
+
+#After proper configuration, start the containers one by one.
+
+Elasticsearch
 docker-compose up -d elasticsearch
-
 docker logs -f eds-elasticsearch-1
+
+
+#Generate a service token:
 
 curl -X POST --user elastic:changeme 0.0.0.0:9200/_security/service/elastic/kibana/credential/token/token1?pretty
 
-add the generated key in nano docker-compose.yml in kibana section
 
-Kibana
-======
+#Add the generated key into the kibana section of your docker-compose.yml:
 
+nano docker-compose.yml
+
+#Kibana
 docker-compose up -d kibana
-
 docker logs -f eds-kibana-1
 
-filebeat
-========
+#Filebeat
 docker-compose build --no-cache filebeat
-
 docker-compose up -d filebeat
-
 docker logs -f eds-filebeat-1
 
-zeek
-====
+#Zeek
 docker-compose build --no-cache zeek
-
 docker-compose up -d zeek
-
 docker logs -f eds-zeek-1
 
-suricata
-========
+#Suricata
 docker-compose build --no-cache suricata
-
 docker-compose up -d suricata
-
 docker logs -f eds-suricata-1
 
-###I have added custom rules for DOS attack, SQL injection and privilge escaltion in the suricata folder. Make your own rules for custom attack detection.####
+Note: Custom rules have been added in the suricata folder for detecting DoS attacks, SQL injections, and privilege escalation attempts. You can also create your own rules for detecting custom attacks.
 
-slips
-=====
+#Slips
 docker-compose build --no-cache slips
-
 docker-compose up -d slips
-
 docker logs -f eds-slips-1
-
